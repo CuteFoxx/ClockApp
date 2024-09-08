@@ -11,12 +11,19 @@ function App() {
   const [showMore, setShowMore] = useState(false);
   const [curentTimeHour, setCurrentTimeHour] = useState<string>();
   const [currentTime, setCurrentTime] = useState<string>();
+  const [trigger, setTrigger] = useState(0);
 
   const handleClick = (): void => {
     setShowMore(!showMore);
   };
 
+  const apiNinjasKey = process.env.VITE_APININJAS_KEY;
   const ipDataKey = process.env.VITE_IPDATA_KEY;
+  const { isLoading: isLoadingQuote, data: quote } = useFetch(
+    "https://api.api-ninjas.com/v1/quotes?category=computers",
+    apiNinjasKey,
+    trigger
+  );
   const { isLoading: isLoadingLocation, data: locationData } = useFetch(
     `https://api.ipdata.co?api-key=${ipDataKey}`
   );
@@ -32,7 +39,7 @@ function App() {
     setCurrentTime(DateTime.local().toFormat("HH:mm"));
   }, 60000);
 
-  if (!isLoadingLocation && curentTimeHour) {
+  if (!isLoadingQuote && !isLoadingLocation && curentTimeHour) {
     return (
       <div
         className={`app ${
@@ -40,7 +47,7 @@ function App() {
         }`}
       >
         <div className="app__container">
-          <Quote />
+          <Quote data={quote} setTrigger={setTrigger} />
           <div className="app__time-wrapper">
             <Greeting curentTimeHour={curentTimeHour} />
             <CurrentTime
