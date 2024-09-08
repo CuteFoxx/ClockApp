@@ -16,12 +16,7 @@ function App() {
     setShowMore(!showMore);
   };
 
-  const apiNinjasKey = process.env.VITE_APININJAS_KEY;
   const ipDataKey = process.env.VITE_IPDATA_KEY;
-  const { isLoading: isLoadingQuote, data: quote } = useFetch(
-    "https://api.api-ninjas.com/v1/quotes?category=computers",
-    apiNinjasKey
-  );
   const { isLoading: isLoadingLocation, data: locationData } = useFetch(
     `https://api.ipdata.co?api-key=${ipDataKey}`
   );
@@ -37,7 +32,7 @@ function App() {
     setCurrentTime(DateTime.local().toFormat("HH:mm"));
   }, 60000);
 
-  if (!isLoadingQuote && !isLoadingLocation && curentTimeHour) {
+  if (!isLoadingLocation && curentTimeHour) {
     return (
       <div
         className={`app ${
