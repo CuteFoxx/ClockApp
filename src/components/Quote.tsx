@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import useFetch from "../hooks/useFetch";
-
 const Quote = ({ data, setTrigger }: { data: any; setTrigger: any }) => {
   let i = 1;
   return (
