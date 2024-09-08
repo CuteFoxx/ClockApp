@@ -3,8 +3,8 @@ const Quote = ({ data, setTrigger }: { data: any; setTrigger: any }) => {
   return (
     <div className="app__quote">
       <div className="app__quote-wrapper">
-        <div className="app__quote-text">{data.quote}</div>
-        <div className="app__quote-author">{data.author}</div>
+        <div className="app__quote-text">{data?.quote}</div>
+        <div className="app__quote-author">{data?.author}</div>
       </div>
       <button
         className="app__quote-refresh"
