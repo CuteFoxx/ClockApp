@@ -1,0 +1,81 @@
+@use "variables" as *;
+@use "sass:math";
+
+@function rem($value, $base: 16) {
+  @return math.div($value, $base) + rem;
+}
+@function em($value, $base: 16) {
+  @return math.div($value, $base) + em;
+}
+
+@mixin title($fs: 16px, $fw: normal, $lh: 1, $ls: 1, $tt: initial) {
+  font-size: $fs;
+  font-weight: $fw;
+  line-height: $lh;
+  letter-spacing: $ls;
+  text-transform: $tt;
+}
+@mixin regular {
+  font-size: rem(18);
+  line-height: 1.55;
+}
+@mixin h1 {
+  @include title(rem(200), bold, 1, rem(-5));
+}
+@mixin h2 {
+  @include title(rem(56), bold, 1.2);
+}
+@mixin h3 {
+  @include title(rem(24), bold, 1.5, rem(4, 8), uppercase);
+}
+@mixin h4 {
+  @include title(rem(20), normal, 1.4, rem(4));
+}
+@mixin h5 {
+  @include title(rem(18), bold, 1.55);
+}
+@mixin h6 {
+  @include title(rem(15), normal, 1.86, rem(3));
+}
+@mixin transition($time: 0.4s) {
+  transition: all $time ease;
+}
+@mixin button {
+  @include transition;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: rem(13);
+  cursor: pointer;
+  padding: rem(15) rem(9) rem(13) rem(28);
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 1.75;
+  letter-spacing: rem(5);
+  color: rgba($color: #000000, $alpha: 0.5);
+  border: none;
+  border-radius: rem(28);
+  background: $white;
+  &.active::after {
+    transform: rotate(180deg);
+  }
+  &::after {
+    @include transition;
+    background: $secondaryClr;
+    width: rem(40);
+    height: rem(40);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "customIcons";
+    color: $white;
+    font-size: rem(12);
+    content: "\E800";
+    text-indent: rem(6);
+  }
+
+  &:hover::after {
+    background: rgba($secondaryClr, $alpha: 0.5);
+  }
+}

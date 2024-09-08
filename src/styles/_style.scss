@@ -1,0 +1,342 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+
+  background: black;
+  font-family: "Inter", "Arial", sans-serif;
+  font-size: rem(18);
+  line-height: 1.55;
+
+  color: $fontClr;
+  &::before {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+
+    filter: brightness(0.7);
+  }
+  &:has(.app.day) {
+    &::before {
+      background: url("../assets/desktop/bg-image-daytime.jpg") no-repeat;
+      background-size: cover;
+
+      @media (max-width: $pc) {
+        background: url("../assets/tablet/bg-image-daytime.jpg") no-repeat;
+        background-size: cover;
+      }
+      @media (max-width: $tablet) {
+        background: url("../assets/mobile/bg-image-daytime.jpg") no-repeat;
+        background-size: cover;
+      }
+    }
+  }
+  &:has(.app.night) {
+    &::before {
+      background: url("../assets/desktop/bg-image-nighttime.jpg") no-repeat;
+      left: -0.2%;
+      background-size: cover;
+      @media (max-width: $pcS) {
+        background: url("../assets/tablet/bg-image-nighttime.jpg") no-repeat;
+        background-size: cover;
+      }
+      @media (max-width: $tablet) {
+        background: url("../assets/mobile/bg-image-nighttime.jpg") no-repeat;
+        background-size: cover;
+      }
+    }
+  }
+}
+#root {
+  overflow-x: hidden;
+
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app {
+  overflow: hidden;
+  width: 100%;
+  padding: rem(56) rem(165) rem(0) rem(165);
+
+  @media (max-width: $pcS) or (max-height: rem(700)) {
+    padding: rem(80) rem(64) rem(0) rem(64);
+  }
+  @media (max-width: $phone) or (max-height: rem(400)) {
+    padding: rem(32) rem(25) rem(0) rem(25);
+  }
+  &__container {
+    margin: 0 auto;
+    max-width: rem(1110);
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    @media (max-width: $tablet) {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+  }
+  //QUOTE  STYLES
+  &__container:has(.app__more-info--more) &__quote {
+    opacity: 0;
+    transform: scaleY(0);
+    min-height: 0;
+    min-width: 100%;
+    height: 0;
+    margin-top: -30vh;
+  }
+  &__quote {
+    @include transition(0.8s);
+    transition-timing-function: ease-in-out;
+    @include regular;
+    width: 100%;
+    flex: 1 1 auto;
+    // grid-column: span 2;
+    display: flex;
+    // grid-template-columns: 1fr rem(16);
+    gap: rem(16);
+    max-width: rem(540);
+
+    min-height: auto;
+    min-width: 100%;
+    height: auto;
+    margin-top: 0;
+    transform: scaleY(1);
+    opacity: 1;
+
+    @media (max-width: $tablet) {
+      min-height: 40vh;
+    }
+
+    &-wrapper {
+      width: fit-content;
+    }
+    &-author {
+      margin-top: rem(13);
+      font-weight: bold;
+    }
+    &-refresh {
+      border: none;
+      background: none;
+      cursor: pointer;
+
+      align-self: flex-start;
+      margin-top: rem(10);
+      &::before {
+        font-family: "customIcons";
+        color: rgba($white, 0.6);
+        font-size: rem(16);
+        content: "\E802";
+      }
+    }
+  }
+  //CLOCK STYLES
+  &__time {
+    &-wrapper {
+      max-width: rem(575);
+      height: fit-content;
+      align-self: flex-end;
+    }
+    &-greeting {
+      @include h4;
+      text-transform: uppercase;
+      margin-bottom: rem(16);
+
+      @media (max-width: $pc) {
+        font-size: rem(18);
+      }
+      @media (max-width: $tablet) {
+        font-size: rem(15);
+      }
+
+      &::before {
+        font-family: "customIcons";
+        color: $white;
+        font-size: rem(24);
+        content: "\E803";
+
+        margin-right: rem(18);
+      }
+      &.night::before {
+        content: "\E804";
+      }
+    }
+    &-current-time {
+      @include h1;
+      width: fit-content;
+      @media (max-width: $pcS) or (max-height: rem(700)) {
+        font-size: rem(175);
+      }
+      @media (max-width: $tablet) or (max-height: rem(400)) {
+        font-size: rem(100);
+        letter-spacing: rem(-2.5);
+      }
+    }
+    &-abbreviation {
+      font-size: rem(40);
+      font-weight: normal;
+      letter-spacing: normal;
+      margin-left: rem(11);
+
+      @media (max-width: $pc) {
+        font-size: rem(32);
+      }
+      @media (max-width: $tablet) {
+        font-size: rem(15);
+      }
+    }
+    &-location {
+      text-transform: uppercase;
+      @include h3;
+      @media (max-width: $pc) {
+        font-size: rem(18);
+      }
+      @media (max-width: $tablet) {
+        font-size: rem(15);
+      }
+    }
+  }
+  //MORE INFO STYLES
+  &__show-more-btn {
+    overflow: hidden;
+    @include button;
+    height: rem(56);
+    max-width: rem(148);
+
+    align-self: flex-end;
+    justify-self: end;
+    @media (max-width: $pc) {
+      width: 100%;
+    }
+    @media (max-width: $tablet) {
+      align-self: unset;
+      justify-self: unset;
+
+      margin-top: rem(80);
+    }
+  }
+  &__more-info {
+    @include transition(0.8s);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    min-width: 100%;
+    max-width: rem(1110);
+    min-height: 0;
+    height: 0;
+    position: relative;
+    bottom: -50vh;
+    z-index: 1;
+    color: $secondaryClr;
+    transform: scaleY(1);
+    margin-top: 0;
+
+    @media (max-width: $pc) {
+    }
+    @media (max-width: $tablet) {
+      display: unset;
+    }
+
+    &--more {
+      margin-bottom: 0;
+      bottom: 0;
+      min-height: 50vh;
+      height: 50vh;
+      transform: translateY(0);
+      margin-top: rem(56);
+      width: 100%;
+      min-width: 100%;
+    }
+    .app.night & {
+      color: $white;
+    }
+    &::before {
+      top: 0;
+      z-index: -1;
+      position: absolute;
+      content: "";
+      width: 150vw;
+      height: 60vh;
+      left: -50vw;
+
+      background: rgba($white, 0.75);
+      backdrop-filter: blur(20px);
+    }
+    .app.night &::before {
+      background: rgba($primaryClr, 0.75);
+    }
+  }
+  &__info-item {
+    @media (max-width: $tablet) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-label {
+      font-size: rem(15);
+      letter-spacing: rem(3);
+      line-height: 1.86;
+      text-transform: uppercase;
+
+      @media (max-width: $pc) {
+        font-size: rem(13);
+      }
+      @media (max-width: $tablet) {
+        font-size: rem(10);
+        letter-spacing: rem(2);
+      }
+    }
+    &-text {
+      @include h2;
+
+      @media (max-width: $pc) {
+        font-size: rem(40);
+      }
+      @media (max-width: $tablet) {
+        font-size: rem(20);
+      }
+    }
+  }
+  &__info-group2 {
+    width: 50%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: rem(52);
+
+    @media (max-width: $tablet) {
+      width: 100%;
+      gap: rem(15);
+      &:first-child {
+        margin-top: rem(48);
+      }
+      &:not(:first-child) {
+        margin-top: rem(15);
+      }
+    }
+  }
+}
