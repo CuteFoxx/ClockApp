@@ -6,6 +6,7 @@
   - [What I learned](#what-i-learned)
 
 ## Overview
+[Live preview](https://clock-app-tawny-theta.vercel.app/)
 
 ### Screenshot
 
